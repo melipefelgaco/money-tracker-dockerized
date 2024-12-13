@@ -1,0 +1,44 @@
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+    ports:
+      - '3000:8080'
+    env_file:
+      - ./.env
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    ports:
+      - '8080:8080'
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - mysql
+    volumes:
+      - ./backend:/usr/src/app
+    command: ['nodemon', 'index.js']
+
+  mysql:
+    container_name: mysql
+    restart: always
+    image: mysql:9
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./backend/money_tracker_db.sql:/docker-entrypoint-initdb.d/money_tracker_db.sql
+    environment:
+      MYSQL_DATABASE: ${LOCAL_DB_NAME}
+      MYSQL_USER: ${LOCAL_DB_USER}
+      MYSQL_PASSWORD: ${LOCAL_DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${LOCAL_DB_PASS}
+
+volumes:
+  db-data:
+    external: false
