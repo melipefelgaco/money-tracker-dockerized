@@ -1,7 +1,4 @@
 
-# Disclaimer: for this dockerized version just run `docker compose up` to start the app and docker will take care of running mysql, frontend and backend based on the Dockerfile. Be sure to get the environment variables from the developer and set up the database first
-
-
 # Money Tracker - Webapp
 
 A web application designed for tracking personal expenses with user authentication, email verification, and expense management.
